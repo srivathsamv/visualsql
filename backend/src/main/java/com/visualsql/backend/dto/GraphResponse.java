@@ -1,4 +1,9 @@
 package com.visualsql.backend.dto;
 
-public class GraphResponse {
+import java.util.List;
+
+public record GraphResponse(
+        List<TableNode> nodes,
+        List<RelationshipEdge> edges
+) {
 }

@@ -1,4 +1,4 @@
 package com.visualsql.backend.dto;
 
-public class SqlRequest {
+public record SqlRequest(String sql) {
 }

@@ -1,4 +1,10 @@
 package com.visualsql.backend.dto;
 
-public class TableNode {
+import java.util.List;
+
+public record TableNode(
+        String id,
+        String tableName,
+        List<ColumnDto> columns
+) {
 }
