@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ColumnMapper {
 
-    public ColumnDto map(ColumnDefinition columnDefinition) {
+    public ColumnDto map(ColumnDefinition columnDefinition, boolean isPrimaryKey, boolean isForeignKey) {
         String columnName = columnDefinition.getColumnName();
         String dataType = columnDefinition.getColDataType().toString();
 
-        return new ColumnDto(columnName, dataType, false, false);
+        return new ColumnDto(columnName, dataType, isPrimaryKey, isForeignKey);
     }
 }
