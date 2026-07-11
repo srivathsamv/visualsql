@@ -23,7 +23,9 @@ public class RelationshipExtractor {
                     new RelationshipEdge(
                             sourceTable + "-" + reference.referencedTable(),
                             sourceTable,
+                            sourceTable + "-" + reference.sourceColumn(),
                             reference.referencedTable(),
+                            reference.referencedTable() + "-" + reference.referencedColumn(),
                             reference.sourceColumn()
                     )
             );

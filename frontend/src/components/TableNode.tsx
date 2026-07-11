@@ -51,15 +51,17 @@ export default function TableNode({ data }: Props) {
                     }}
                 >
 
-                    <Handle
-                        type="target"
-                        position={Position.Left}
-                        id={`${table.id}-${column.name}`}
-                        style={{
-                            width: 8,
-                            height: 8
-                        }}
-                    />
+                    {column.primaryKey && (
+                        <Handle
+                            type="target"
+                            position={Position.Left}
+                            id={`${table.id}-${column.name}`}
+                            style={{
+                                width: 8,
+                                height: 8
+                            }}
+                        />
+                    )}
 
                     <span>
 
@@ -79,15 +81,17 @@ export default function TableNode({ data }: Props) {
             {column.type}
         </span>
 
-                    <Handle
-                        type="source"
-                        position={Position.Right}
-                        id={`${table.id}-${column.name}`}
-                        style={{
-                            width: 8,
-                            height: 8
-                        }}
-                    />
+                    {column.foreignKey && (
+                        <Handle
+                            type="source"
+                            position={Position.Right}
+                            id={`${table.id}-${column.name}`}
+                            style={{
+                                width: 8,
+                                height: 8
+                            }}
+                        />
+                    )}
 
                 </div>
 

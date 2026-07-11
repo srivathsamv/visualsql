@@ -56,7 +56,11 @@ export default function SchemaCanvas({
 
             source: edge.source,
 
+            sourceHandle: edge.sourceHandle,
+
             target: edge.target,
+
+            targetHandle: edge.targetHandle,
 
             label: edge.label,
 

@@ -14,7 +14,9 @@ export interface TableNode {
 export interface RelationshipEdge {
     id: string;
     source: string;
+    sourceHandle: string;
     target: string;
+    targetHandle: string;
     label: string;
 }
 
