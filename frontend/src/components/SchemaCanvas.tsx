@@ -7,6 +7,7 @@ import {
     type Node
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import TableNode from "./TableNode.tsx";
 
 import type { GraphResponse } from "../types/graph";
 
@@ -18,6 +19,10 @@ export default function SchemaCanvas({
                                          graph
                                      }: SchemaCanvasProps) {
 
+    const nodeTypes = {
+        tableNode: TableNode
+    };
+
     const nodes: Node[] = useMemo(() => {
 
         if (!graph) return [];
@@ -26,13 +31,15 @@ export default function SchemaCanvas({
 
             id: table.id,
 
+            type: "tableNode",
+
             position: {
-                x: index * 250,
-                y: 100
+                x: index * 450,
+                y: 150
             },
 
             data: {
-                label: table.tableName
+                table
             }
 
         }));
@@ -71,6 +78,7 @@ export default function SchemaCanvas({
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
+                nodeTypes={nodeTypes}
                 fitView
             >
                 <Background />
