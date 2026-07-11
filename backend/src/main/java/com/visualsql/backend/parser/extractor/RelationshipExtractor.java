@@ -21,10 +21,10 @@ public class RelationshipExtractor {
 
             edges.add(
                     new RelationshipEdge(
+                            sourceTable + "-" + reference.referencedTable(),
                             sourceTable,
                             reference.referencedTable(),
-                            reference.sourceColumn(),
-                            reference.referencedColumn()
+                            reference.sourceColumn()
                     )
             );
         }
