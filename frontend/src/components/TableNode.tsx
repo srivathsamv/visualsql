@@ -12,45 +12,48 @@ export default function TableNode({ data }: Props) {
     const table = data.table;
 
     return (
-
         <div
             style={{
-                background: "#1f2937",
-                color: "white",
-                border: "1px solid #4b5563",
+                background: "#F5E8D8",
+                color: "#1C1C1C",
+                border: "1px solid #4B5563",
                 borderRadius: 8,
-                minWidth: 250,
                 overflow: "hidden",
+                minWidth: 300,
                 fontFamily: "monospace"
             }}
         >
-
+            {/* Table Header */}
             <div
                 style={{
-                    background: "#374151",
-                    padding: "10px",
+                    background: "#1C1C1C",
+                    color: "#F5E8D8",
+                    padding: "12px",
+                    textAlign: "center",
                     fontWeight: "bold",
-                    textAlign: "center"
+                    fontSize: "16px"
                 }}
             >
                 {table.tableName}
             </div>
 
+            {/* Table Columns */}
             {table.columns.map((column) => (
 
                 <div
                     key={column.name}
                     style={{
                         position: "relative",
-                        display: "flex",
-                        justifyContent: "space-between",
+                        display: "grid",
+                        gridTemplateColumns: "50px 1fr 150px",
                         alignItems: "center",
-                        padding: "8px 12px",
-                        borderTop: "1px solid #374151",
-                        fontSize: 13
+                        textAlign: "center",
+                        padding: "10px 12px",
+                        borderTop: "1px solid #4B5563",
+                        fontSize: "14px"
                     }}
                 >
-
+                    {/* Incoming Handle (PK) */}
                     {column.primaryKey && (
                         <Handle
                             type="target"
@@ -63,24 +66,42 @@ export default function TableNode({ data }: Props) {
                         />
                     )}
 
-                    <span>
-
-            {column.primaryKey && "🔑 "}
-
-                        {column.foreignKey && "🔗 "}
-
-                        {column.name}
-
-        </span>
-
+                    {/* PK / FK */}
                     <span
                         style={{
-                            color: "#9ca3af"
+                            fontWeight: "bold",
+                            color: "#2563EB",
+                            textAlign: "center"
                         }}
                     >
-            {column.type}
-        </span>
+                        {column.primaryKey
+                            ? "PK"
+                            : column.foreignKey
+                                ? "FK"
+                                : ""}
+                    </span>
 
+                    {/* Column Name */}
+                    <span
+                        style={{
+                            textAlign: "center",
+                            paddingLeft: "8px"
+                        }}
+                    >
+                        {column.name}
+                    </span>
+
+                    {/* Data Type */}
+                    <span
+                        style={{
+                            textAlign: "center",
+                            color: "#374151"
+                        }}
+                    >
+                        {column.type}
+                    </span>
+
+                    {/* Outgoing Handle (FK) */}
                     {column.foreignKey && (
                         <Handle
                             type="source"
@@ -92,13 +113,9 @@ export default function TableNode({ data }: Props) {
                             }}
                         />
                     )}
-
                 </div>
 
             ))}
-
         </div>
-
     );
-
 }

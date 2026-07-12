@@ -4,10 +4,11 @@ import {
     Controls,
     ReactFlow,
     type Edge,
-    type Node
+    type Node, MarkerType
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import TableNode from "./TableNode.tsx";
+import {getLayoutedElements} from "../utils/dagreLayout.ts";
 
 import type { GraphResponse } from "../types/graph";
 
@@ -19,6 +20,17 @@ export default function SchemaCanvas({
                                          graph
                                      }: SchemaCanvasProps) {
 
+    const colors = [
+        "#3B82F6", // blue
+        "#10B981", // green
+        "#F59E0B", // amber
+        "#EF4444", // red
+        "#8B5CF6", // purple
+        "#EC4899", // pink
+        "#06B6D4", // cyan
+        "#84CC16", // lime
+    ];
+
     const nodeTypes = {
         tableNode: TableNode
     };
@@ -27,15 +39,15 @@ export default function SchemaCanvas({
 
         if (!graph) return [];
 
-        return graph.nodes.map((table, index) => ({
+        return graph.nodes.map((table) => ({
 
             id: table.id,
 
             type: "tableNode",
 
             position: {
-                x: index * 450,
-                y: 150
+                x: 0,
+                y: 0
             },
 
             data: {
@@ -50,7 +62,7 @@ export default function SchemaCanvas({
 
         if (!graph) return [];
 
-        return graph.edges.map(edge => ({
+        return graph.edges.map((edge, index) => ({
 
             id: edge.id,
 
@@ -62,26 +74,43 @@ export default function SchemaCanvas({
 
             targetHandle: edge.targetHandle,
 
-            label: edge.label,
+            animated: true,
 
-            animated: true
+            type: "simplebezier",
+
+            style: {
+                stroke: colors[index % colors.length],
+                strokeWidth: 2,
+            },
+
+            markerEnd: {
+                type: MarkerType.ArrowClosed,
+                color: colors[index % colors.length]
+            }
 
         }));
 
     }, [graph]);
 
+    const { nodes: layoutedNodes, edges: layoutedEdges } = useMemo(() => {
+        return getLayoutedElements(nodes, edges);
+    }, [nodes, edges]);
+
     return (
         <div
             style={{
                 width: "100%",
-                height: "700px",
+                height: "86.5%",
+                backgroundColor: "#1A1A1A",
                 border: "1px solid #444",
-                marginTop: "20px"
+                borderRadius: "8px",
+                borderColor: "white",
+                marginTop: "45px"
             }}
         >
             <ReactFlow
-                nodes={nodes}
-                edges={edges}
+                nodes={layoutedNodes}
+                edges={layoutedEdges}
                 nodeTypes={nodeTypes}
                 fitView
             >

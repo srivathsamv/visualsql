@@ -30,20 +30,72 @@ export default function Home() {
     };
 
     return (
+        <div
+            style={{
+                height: "100vh",
+                padding: "20px",
+                boxSizing: "border-box",
+                background: "#121212",
+                display: "flex",
+                flexDirection: "column"
+            }}
+        >
+            {/* Header */}
+            <div
+                style={{
+                    textAlign: "center",
+                    marginBottom: "24px"
+                }}
+            >
+                <h1
+                    style={{
+                        margin: 0,
+                        fontSize: "4rem",
+                        color: "white"
+                    }}
+                >
+                    VisualSQL
+                </h1>
 
-        <div>
+                <p
+                    style={{
+                        marginTop: "25px",
+                        color: "#9ca3af",
+                        fontSize: "1.1rem"
+                    }}
+                >
+                    Visualize SQL schemas instantly
+                </p>
+            </div>
 
-            <h1>VisualSQL</h1>
+            {/* Main Content */}
+            <div
+                style={{
+                    display: "flex",
+                    flex: 1,
+                    gap: "15px"
+                }}
+            >
+                <div
+                    style={{
+                        flex: 3,
+                        display: "flex",
+                        flexDirection: "column"
+                    }}
+                >
+                    <SqlEditor
+                        onVisualize={handleVisualize}
+                    />
+                </div>
 
-            <SqlEditor
-                onVisualize={handleVisualize}
-            />
-
-            <SchemaCanvas
-                graph={graph}
-            />
-
+                <div
+                    style={{
+                        flex: 7
+                    }}
+                >
+                    <SchemaCanvas graph={graph} />
+                </div>
+            </div>
         </div>
-
     );
 }
