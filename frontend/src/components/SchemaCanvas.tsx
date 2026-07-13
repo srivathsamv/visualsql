@@ -100,12 +100,12 @@ export default function SchemaCanvas({
         <div
             style={{
                 width: "100%",
-                height: "86.5%",
+                height: "94.3%",
                 backgroundColor: "#1A1A1A",
                 border: "1px solid #444",
                 borderRadius: "8px",
                 borderColor: "white",
-                marginTop: "45px"
+                marginTop: "32.5px"
             }}
         >
             <ReactFlow

@@ -1,14 +1,18 @@
 import { useState } from "react";
+import Editor from "@monaco-editor/react";
+import SqlToolbar from "./SqlToolbar";
+import { useRef } from "react";
 
 interface SqlEditorProps {
     onVisualize: (sql: string) => void;
 }
 
 export default function SqlEditor({
-                                      onVisualize
+                                      onVisualize,
                                   }: SqlEditorProps) {
 
-    const [sql, setSql] = useState(`CREATE TABLE users (
+    const [sql, setSql] = useState(`
+CREATE TABLE users (
     id BIGINT PRIMARY KEY,
     username VARCHAR(50),
     email VARCHAR(100)
@@ -20,44 +24,95 @@ CREATE TABLE orders (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );`);
 
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleOpenFile = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+
+        const file = event.target.files?.[0];
+
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+
+            const contents = e.target?.result as string;
+
+            setSql(contents);
+
+        };
+
+        reader.readAsText(file);
+
+    };
+
     return (
         <div
             style={{
                 display: "flex",
                 flexDirection: "column",
-                height: "100%",
-                gap: "16px"
+                flex: 1,
+                gap: "5px",
             }}
         >
-            <h2 style={{ margin: 0 }}>SQL Editor</h2>
-
-            <textarea
-                value={sql}
-                onChange={(e) => setSql(e.target.value)}
+            <h2
                 style={{
-                    flex: 1,
-                    width: "100%",
-                    resize: "none",
-                    fontFamily: "Consolas, monospace",
-                    fontSize: "14px",
-                    padding: "12px",
-                    borderRadius: "8px",
-                    border: "1px solid #444",
-                    background: "#1f2937",
-                    color: "white",
-                    boxSizing: "border-box"
-                }}
-            />
-
-            <button
-                onClick={() => onVisualize(sql)}
-                style={{
-                    padding: "12px",
-                    cursor: "pointer"
+                    margin: 0,
+                    color: "#F5E8D8",
+                    textAlign: "center",
                 }}
             >
-                Visualize
-            </button>
+                SQL Editor
+            </h2>
+
+            <SqlToolbar
+                onVisualize={() => onVisualize(sql)}
+                onClear={() => setSql("/*Type SQL statements or Open a file to get started*/")}
+                onOpenFile={() => fileInputRef.current?.click()}
+            />
+
+            <div
+                style={{
+                    flex: 1,
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    border: "1px solid #374151",
+                }}
+            >
+                <Editor
+                    height="100%"
+                    defaultLanguage="sql"
+                    theme="vs-dark"
+                    value={sql}
+                    onChange={(value) => setSql(value ?? "")}
+                    options={{
+                        minimap: {
+                            enabled: false,
+                        },
+                        fontSize: 12,
+                        fontFamily: "JetBrains Mono, Consolas, monospace",
+                        wordWrap: "on",
+                        automaticLayout: true,
+                        scrollBeyondLastLine: false,
+                        roundedSelection: true,
+                        padding: {
+                            top: 12,
+                        },
+                        tabSize: 2,
+                        insertSpaces: true,
+                    }}
+                />
+
+                <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".sql"
+                    style={{ display: "none" }}
+                    onChange={handleOpenFile}
+                />
+            </div>
         </div>
     );
 }

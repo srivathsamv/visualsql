@@ -50,7 +50,7 @@ export default function Home() {
                 <h1
                     style={{
                         margin: 0,
-                        fontSize: "4rem",
+                        fontSize: "3rem",
                         color: "white"
                     }}
                 >
