@@ -7,12 +7,28 @@ const api = axios.create({
 
 export async function visualize(sql: string): Promise<GraphResponse> {
 
-    const response = await api.post<GraphResponse>(
-        "/visualize",
+    try {
+
+        const response = await api.post<GraphResponse>(
+            "/visualize",
             {
                 sql
             }
-    );
+        );
 
-    return response.data;
+        return response.data;
+
+    } catch (error) {
+
+        if (axios.isAxiosError(error)) {
+
+            throw new Error(
+                error.response?.data?.message ??
+                "Failed to visualize SQL."
+            );
+
+        }
+
+        throw new Error("Unexpected error occurred.");
+    }
 }

@@ -1,0 +1,38 @@
+package com.visualsql.backend.exception;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.LocalDateTime;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(SqlParseException.class)
+    public ResponseEntity<ErrorResponse> handleSqlParseException(
+
+            SqlParseException exception,
+            HttpServletRequest request
+
+    ) {
+
+        ErrorResponse response = new ErrorResponse(
+
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "SQL_PARSE_ERROR",
+                exception.getMessage(),
+                request.getRequestURI()
+
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(response);
+
+    }
+
+}

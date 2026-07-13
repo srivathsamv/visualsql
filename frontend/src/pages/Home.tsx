@@ -20,13 +20,14 @@ export default function Home() {
             setGraph(response);
 
         } catch (error) {
-
             console.error(error);
 
-            alert("Failed to visualize SQL.");
-
+            if (error instanceof Error) {
+                alert(error.message);
+            } else {
+                alert("Unexpected error.");
+            }
         }
-
     };
 
     return (
