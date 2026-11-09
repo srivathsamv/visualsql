@@ -3,6 +3,7 @@ package com.visualsql.backend.controller;
 import com.visualsql.backend.dto.GraphResponse;
 import com.visualsql.backend.dto.SqlRequest;
 import com.visualsql.backend.service.SqlVisualizerService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class SqlParsingController {
     }
 
     @PostMapping("/visualize")
-    public GraphResponse visualize(@RequestBody SqlRequest request) {
+    public GraphResponse visualize(@Valid @RequestBody SqlRequest request) {
         return sqlVisualizerService.visualize(request.sql());
     }
 }

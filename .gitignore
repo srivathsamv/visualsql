@@ -27,9 +27,9 @@ build/
 ###############################################################################
 # Node / React / Vite
 ###############################################################################
-frontend/node_modules/
-frontend/dist/
-frontend/.vite/
+frontendOr/node_modules/
+frontendOr/dist/
+frontendOr/.vite/
 
 # Logs
 npm-debug.log*

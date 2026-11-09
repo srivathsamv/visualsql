@@ -38,7 +38,9 @@ class SqlVisualizerServiceImplTest {
         RelationshipEdge edge = new RelationshipEdge(
                 "orders-users",
                 "orders",
+                "orders-user_id",
                 "users",
+                "user-id",
                 "user_id"
         );
 

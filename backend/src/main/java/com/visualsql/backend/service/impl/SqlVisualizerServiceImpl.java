@@ -3,6 +3,7 @@ package com.visualsql.backend.service.impl;
 import com.visualsql.backend.dto.GraphResponse;
 import com.visualsql.backend.dto.RelationshipEdge;
 import com.visualsql.backend.dto.TableNode;
+import com.visualsql.backend.exception.SqlParseException;
 import com.visualsql.backend.parser.extractor.CreateTableExtractor;
 import com.visualsql.backend.parser.model.ExtractedTable;
 import com.visualsql.backend.service.SqlVisualizerService;
@@ -42,7 +43,9 @@ public class SqlVisualizerServiceImpl implements SqlVisualizerService {
 
             return new GraphResponse(nodes, edges);
         } catch(Exception e) {
-            throw new IllegalArgumentException("Failed to Parse SQL.");
+            throw new SqlParseException(
+                    "Unable to parse SQL: " + e.getMessage()
+            );
         }
     }
 }
