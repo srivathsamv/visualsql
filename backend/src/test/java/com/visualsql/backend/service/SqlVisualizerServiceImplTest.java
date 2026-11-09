@@ -5,6 +5,10 @@ import com.visualsql.backend.dto.GraphResponse;
 import com.visualsql.backend.dto.RelationshipEdge;
 import com.visualsql.backend.dto.TableNode;
 import com.visualsql.backend.parser.extractor.CreateTableExtractor;
+import com.visualsql.backend.parser.extractor.ForeignKeyExtractor;
+import com.visualsql.backend.parser.extractor.PrimaryKeyExtractor;
+import com.visualsql.backend.parser.extractor.RelationshipExtractor;
+import com.visualsql.backend.parser.mapper.ColumnMapper;
 import com.visualsql.backend.parser.model.ExtractedTable;
 import com.visualsql.backend.service.impl.SqlVisualizerServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -80,4 +84,26 @@ class SqlVisualizerServiceImplTest {
         verify(extractor, times(1)).extract(any());
         verifyNoMoreInteractions(extractor);
     }
+
+    @Test
+    void edgeConnectsForMixedCaseTableNames() {
+        SqlVisualizerServiceImpl service = new SqlVisualizerServiceImpl(
+            new CreateTableExtractor(new ColumnMapper(), new PrimaryKeyExtractor(),
+                    new ForeignKeyExtractor(), new RelationshipExtractor()));
+
+        GraphResponse graph = service.visualize("""
+            CREATE TABLE Users (id BIGINT PRIMARY KEY);
+            CREATE TABLE Orders (
+                id BIGINT PRIMARY KEY,
+                user_id BIGINT,
+                FOREIGN KEY (user_id) REFERENCES Users(id)
+            );
+            """);
+
+        RelationshipEdge edge = graph.edges().getFirst();
+        assertEquals("orders", edge.source());
+        assertEquals("users", edge.target());
+        assertEquals("orders-user_id", edge.sourceHandle());
+        assertEquals("users-id", edge.targetHandle());
+  }
 }

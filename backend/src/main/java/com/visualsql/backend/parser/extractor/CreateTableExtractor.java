@@ -8,6 +8,7 @@ import com.visualsql.backend.parser.model.ExtractedTable;
 import com.visualsql.backend.parser.model.ForeignKeyReference;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
 import org.springframework.stereotype.Component;
+import com.visualsql.backend.util.*;
 
 import java.util.List;
 import java.util.Map;
@@ -43,10 +44,6 @@ public class CreateTableExtractor {
                         foreignKeys
                 );
         List<ColumnDto> columns = createTable.getColumnDefinitions().stream().map(column -> columnMapper.map(column, primaryKeys.contains(column.getColumnName()), foreignKeys.containsKey(column.getColumnName()))).toList();
-        return new ExtractedTable(new TableNode(normalizeId(tableName), tableName, columns), edges);
-    }
-
-    private String normalizeId(String tableName) {
-        return tableName.toLowerCase();
+        return new ExtractedTable(new TableNode(TableID.normalize(tableName), tableName, columns), edges);
     }
 }
