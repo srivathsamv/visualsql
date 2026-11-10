@@ -105,5 +105,26 @@ class SqlVisualizerServiceImplTest {
         assertEquals("users", edge.target());
         assertEquals("orders-user_id", edge.sourceHandle());
         assertEquals("users-id", edge.targetHandle());
-  }
+    }
+
+    @Test
+    void multipleForeignKeysToSameTableProduceUniqueEdges() {
+        SqlVisualizerServiceImpl service = new SqlVisualizerServiceImpl(
+            new CreateTableExtractor(new ColumnMapper(), new PrimaryKeyExtractor(),
+                new ForeignKeyExtractor(), new RelationshipExtractor()));
+
+        GraphResponse graph = service.visualize("""
+            CREATE TABLE users (id BIGINT PRIMARY KEY);
+            CREATE TABLE messages (
+                id BIGINT PRIMARY KEY,
+                sender_id BIGINT,
+                recipient_id BIGINT,
+                FOREIGN KEY (sender_id) REFERENCES users(id),
+                FOREIGN KEY (recipient_id) REFERENCES users(id)
+            );
+            """);
+
+        assertEquals(2, graph.edges().size());
+        assertEquals(2, graph.edges().stream().map(RelationshipEdge::id).distinct().count());
+    }
 }

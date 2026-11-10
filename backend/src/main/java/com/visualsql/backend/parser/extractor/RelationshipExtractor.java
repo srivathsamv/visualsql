@@ -22,18 +22,17 @@ public class RelationshipExtractor {
         for (ForeignKeyReference reference : foreignKeys.values()) {
             String source = TableID.normalize(sourceTable);
             String target = TableID.normalize(reference.referencedTable());
-            edges.add(
-                    new RelationshipEdge(
-                            source + "-" + target,
-                            source,
-                            source + "-" + TableID.normalize(reference.sourceColumn()),
-                            target,
-                            target + "-" + TableID.normalize(reference.referencedColumn()),
-                            TableID.normalize(reference.sourceColumn())
-                    )
-            );
+            String sourceHandle = source + "-" + TableID.normalize(reference.sourceColumn());
+            String targetHandle = target + "-" + TableID.normalize(reference.referencedColumn());
+            edges.add(new RelationshipEdge(
+              sourceHandle + "->" + targetHandle,
+              source,
+              sourceHandle,
+              target,
+              targetHandle,
+              reference.sourceColumn()
+            ));
         }
-
         return edges;
     }
 }

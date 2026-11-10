@@ -37,6 +37,6 @@ class RelationshipExtractorTest {
         assertEquals("users", edge.target());
         assertEquals("users-id", edge.targetHandle());
         assertEquals("user_id", edge.label());
-        assertEquals("orders-users", edge.id());
+        assertEquals("orders-user_id->users-id", edge.id());
     }
 }
