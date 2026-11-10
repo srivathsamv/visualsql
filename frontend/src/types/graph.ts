@@ -3,6 +3,7 @@ export interface ColumnDto {
     type: string;
     primaryKey: boolean;
     foreignKey: boolean;
+    referenced: boolean;
 }
 
 export interface TableNode {

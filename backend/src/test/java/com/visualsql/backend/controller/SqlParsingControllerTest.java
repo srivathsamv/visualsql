@@ -39,6 +39,7 @@ class SqlParsingControllerTest {
                                 "id",
                                 "BIGINT",
                                 true,
+                                false,
                                 false
                         )
                 )

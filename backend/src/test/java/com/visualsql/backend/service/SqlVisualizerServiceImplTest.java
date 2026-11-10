@@ -34,6 +34,7 @@ class SqlVisualizerServiceImplTest {
                                 "id",
                                 "BIGINT",
                                 true,
+                                false,
                                 false
                         )
                 )
@@ -126,5 +127,27 @@ class SqlVisualizerServiceImplTest {
 
         assertEquals(2, graph.edges().size());
         assertEquals(2, graph.edges().stream().map(RelationshipEdge::id).distinct().count());
+    }
+
+    @Test
+    void marksColumnsReferencedByForeignKeys() {
+        SqlVisualizerServiceImpl service = new SqlVisualizerServiceImpl(
+            new CreateTableExtractor(new ColumnMapper(), new PrimaryKeyExtractor(),
+                    new ForeignKeyExtractor(), new RelationshipExtractor()));
+
+        GraphResponse graph = service.visualize("""
+            CREATE TABLE users (id BIGINT PRIMARY KEY, email VARCHAR(100) UNIQUE);
+            CREATE TABLE invites (
+                id BIGINT PRIMARY KEY,
+                invited_email VARCHAR(100),
+                FOREIGN KEY (invited_email) REFERENCES users(email)
+            );
+            """);
+
+        TableNode users = graph.nodes().stream()
+            .filter(n -> n.id().equals("users")).findFirst().orElseThrow();
+
+        assertTrue(users.columns().stream().filter(c -> c.name().equals("email")).findFirst().orElseThrow().referenced());
+        assertFalse(users.columns().stream().filter(c -> c.name().equals("id")).findFirst().orElseThrow().referenced());
     }
 }

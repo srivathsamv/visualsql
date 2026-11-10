@@ -38,84 +38,88 @@ export default function TableNode({ data }: Props) {
             </div>
 
             {/* Table Columns */}
-            {table.columns.map((column) => (
+            {table.columns.map((column) => {
 
-                <div
-                    key={column.name}
-                    style={{
-                        position: "relative",
-                        display: "grid",
-                        gridTemplateColumns: "50px 1fr 150px",
-                        alignItems: "center",
-                        textAlign: "center",
-                        padding: "10px 12px",
-                        borderTop: "1px solid #4B5563",
-                        fontSize: "14px"
-                    }}
-                >
-                    {/* Incoming Handle (PK) */}
-                    {column.primaryKey && (
-                        <Handle
-                            type="target"
-                            position={Position.Left}
-                            id={`${table.id}-${column.name}`}
-                            style={{
-                                width: 8,
-                                height: 8
-                            }}
-                        />
-                    )}
+                // CHANGED 1: one handle ID per column, same format as the backend ("users-email")
+                const handleId = `${table.id}-${column.name.replace(/["`]/g, "").toLowerCase()}`;
 
-                    {/* PK / FK */}
-                    <span
+                return (
+                    <div
+                        key={column.name}
                         style={{
-                            fontWeight: "bold",
-                            color: "#2563EB",
-                            textAlign: "center"
-                        }}
-                    >
-                        {column.primaryKey
-                            ? "PK"
-                            : column.foreignKey
-                                ? "FK"
-                                : ""}
-                    </span>
-
-                    {/* Column Name */}
-                    <span
-                        style={{
+                            position: "relative",
+                            display: "grid",
+                            gridTemplateColumns: "50px 1fr 150px",
+                            alignItems: "center",
                             textAlign: "center",
-                            paddingLeft: "8px"
+                            padding: "10px 12px",
+                            borderTop: "1px solid #4B5563",
+                            fontSize: "14px"
                         }}
                     >
-                        {column.name}
-                    </span>
+                        {/* CHANGED 2: incoming handle on any column a FK points at (PK or UNIQUE) */}
+                        {column.referenced && (
+                            <Handle
+                                type="target"
+                                position={Position.Left}
+                                id={handleId}
+                                style={{
+                                    width: 8,
+                                    height: 8
+                                }}
+                            />
+                        )}
 
-                    {/* Data Type */}
-                    <span
-                        style={{
-                            textAlign: "center",
-                            color: "#374151"
-                        }}
-                    >
-                        {column.type}
-                    </span>
-
-                    {/* Outgoing Handle (FK) */}
-                    {column.foreignKey && (
-                        <Handle
-                            type="source"
-                            position={Position.Right}
-                            id={`${table.id}-${column.name}`}
+                        {/* PK / FK */}
+                        <span
                             style={{
-                                width: 8,
-                                height: 8
+                                fontWeight: "bold",
+                                color: "#2563EB",
+                                textAlign: "center"
                             }}
-                        />
-                    )}
-                </div>
+                        >
+                            {column.primaryKey
+                                ? "PK"
+                                : column.foreignKey
+                                    ? "FK"
+                                    : ""}
+                        </span>
 
-            ))}
+                        {/* Column Name */}
+                        <span
+                            style={{
+                                textAlign: "center",
+                                paddingLeft: "8px"
+                            }}
+                        >
+                            {column.name}
+                        </span>
+
+                        {/* Data Type */}
+                        <span
+                            style={{
+                                textAlign: "center",
+                                color: "#374151"
+                            }}
+                        >
+                            {column.type}
+                        </span>
+
+                        {/* Outgoing Handle (FK) */}
+                        {column.foreignKey && (
+                            <Handle
+                                type="source"
+                                position={Position.Right}
+                                id={handleId}  // CHANGED 3: same normalized ID
+                                style={{
+                                    width: 8,
+                                    height: 8
+                                }}
+                            />
+                        )}
+                    </div>
+                );
+            })}
         </div>
     );
 }

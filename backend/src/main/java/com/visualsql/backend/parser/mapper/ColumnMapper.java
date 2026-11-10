@@ -14,6 +14,6 @@ public class ColumnMapper {
         String columnName = columnDefinition.getColumnName();
         String dataType = columnDefinition.getColDataType().toString();
 
-        return new ColumnDto(columnName, dataType, isPrimaryKey, isForeignKey);
+        return new ColumnDto(columnName, dataType, isPrimaryKey, isForeignKey, false);
     }
 }
