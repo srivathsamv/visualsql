@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Helper class to extract foreign keys in a table
+ */
 @Component
 public class ForeignKeyExtractor {
 

@@ -4,6 +4,9 @@ import com.visualsql.backend.dto.ColumnDto;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mapper to convert a rough column definition into a columnDto
+ */
 @Component
 public class ColumnMapper {
 

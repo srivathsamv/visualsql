@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Helper class to extract primary keys in a table
+ */
 @Component
 public class PrimaryKeyExtractor {
 

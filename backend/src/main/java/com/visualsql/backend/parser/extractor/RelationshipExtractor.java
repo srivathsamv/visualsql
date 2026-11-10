@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Helper class to extract relationship between different columns of the tables
+ */
 @Component
 public class RelationshipExtractor {
     public List<RelationshipEdge> extract(

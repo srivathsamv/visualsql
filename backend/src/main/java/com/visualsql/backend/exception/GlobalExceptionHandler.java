@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 
+/**
+ * API error handling class. Handles input validations and parsing errors
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

@@ -14,6 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Helper class to help extract a table with its primary and foreign keys
+ * 
+ * Uses other helper classes in the package to ease out the logic of extraction
+ */
 @Component
 public class CreateTableExtractor {
 

@@ -3,6 +3,9 @@ package com.visualsql.backend;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Main class to start the spring boot application
+ */
 @SpringBootApplication
 public class BackendApplication {
 

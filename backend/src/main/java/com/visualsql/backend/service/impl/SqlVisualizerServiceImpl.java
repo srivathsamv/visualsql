@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the service interface (business logic of converting statements into a comprehendable diagram)
+ * Current state: processes CREATE TABLE statements
+ */
 @Service
 public class SqlVisualizerServiceImpl implements SqlVisualizerService {
 
@@ -33,7 +37,7 @@ public class SqlVisualizerServiceImpl implements SqlVisualizerService {
             List<TableNode> nodes = new ArrayList<>();
             List<RelationshipEdge> edges = new ArrayList<>();
 
-            for(Statement statement: statements.getStatements()) {
+            for(Statement statement: statements) {
                 if(statement instanceof CreateTable) {
                     ExtractedTable table = createTableExtractor.extract((CreateTable) statement);
                     nodes.add(table.node());
